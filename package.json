@@ -1,0 +1,36 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/JoshiRohit6441/movie-booking-backend#readme",
+  "bugs": {
+    "url": "https://github.com/JoshiRohit6441/movie-booking-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoshiRohit6441/movie-booking-backend.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "admin:seed": "node script/adminSeed.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.4",
+    "express": "^5.2.1",
+    "ioredis": "^6.0.0",
+    "jsonwebtoken": "^9.0.3",
+    "moment": "^2.31.0",
+    "mongoose": "^9.10.2",
+    "multer": "^2.4.0",
+    "nodemon": "^3.1.14",
+    "uuid": "^14.0.2"
+  }
+}
