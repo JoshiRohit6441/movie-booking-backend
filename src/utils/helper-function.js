@@ -32,8 +32,7 @@ export function generateAuthToken(id, type) {
   if (type == "access")
     return jwt.sign({ id }, ENV.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
 
-  if (type == "refresh")
-    return jwt.sign({ id }, ENV.REFRESH_TOKEN_SECRET, { expiresIn: "1d" });
+  return jwt.sign({ id }, ENV.REFRESH_TOKEN_SECRET, { expiresIn: "1d" });
 }
 
 // verify token
@@ -67,4 +66,16 @@ export async function comparePassword(password, hashedPassword) {
 export const pathNormalizer = (path) => {
   const url = new URL(path);
   return url.pathname;
+};
+
+export const getDbQueryById = async ({ model, id, fields = "" }) => {
+  try {
+    console.log(model);
+    console.log(id, fields);
+    const document = await model.findById(id).select(fields);
+    if (!document) throw new Error("Document not found");
+    return document;
+  } catch (err) {
+    throw new Error(err.message);
+  }
 };

@@ -1,18 +1,21 @@
-import handleResponse from "../../utils/handle-rsponse.js";
-import User from "../../model/UserSchema.js";
 import {
-  adminLoginService,
   adminVerificationCodeService,
   getProfileService,
+  loginWithOTPService,
+  registerAsVendorService,
   resendVerificationCodeService,
   updateProfileService,
 } from "../../service/AuthService.js";
 
-// login controller
-export const adminLogin = async (req, resp) => {
-  const { email, password } = req.body;
+// register vendor controller
+// export const vendorRegister = async (req, resp) => {
+//   const response = await registerAsVendorService(req, resp);
+//   return response;
+// };
 
-  const response = await adminLoginService(email, password, resp);
+// login vendor controller
+export const vendorLogin = async (req, resp) => {
+  const response = await loginWithOTPService(req, resp);
   return response;
 };
 
@@ -27,7 +30,13 @@ export const verifyCode = async (req, resp) => {
   return response;
 };
 
-// get profile constroller
+// resend verification code controller
+export const resendVerificationCode = async (req, resp) => {
+  const response = await resendVerificationCodeService(req, resp);
+  return response;
+};
+
+// get profile controller
 export const getProfile = async (req, resp) => {
   const response = await getProfileService(req, resp);
   return response;
@@ -36,11 +45,5 @@ export const getProfile = async (req, resp) => {
 // update profile controller
 export const updateProfile = async (req, resp) => {
   const response = await updateProfileService(req, resp);
-  return response;
-};
-
-// resend verification code controller
-export const resendVerificationCode = async (req, resp) => {
-  const response = await resendVerificationCodeService(req, resp);
   return response;
 };

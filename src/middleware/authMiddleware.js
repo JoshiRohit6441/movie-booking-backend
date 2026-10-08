@@ -7,31 +7,27 @@ export const authTokenVerification = async (req, resp, next) => {
   try {
     const access_token = req?.cookies?.["access_token"];
 
-    if (!access_token) {
-      return handleResponse(401, "Unauthorized", {}, resp);
-    }
-
-    const decoded = verifyToken(access_token, "access");
-
-
     let user = null;
 
-    if (decoded) {
-      user = await User.findById(decoded.id);
+    if (access_token) {
+      const decoded = verifyToken(access_token, "access");
 
-      if (!user) {
-        return handleResponse(401, "Unauthorized", {}, resp);
+      if (decoded) {
+        user = await User.findById(decoded.id);
+
+        if (!user) {
+          return handleResponse(401, "Unauthorized", {}, resp);
+        }
+
+        if (user.status === "suspended") {
+          return handleResponse(401, "Unauthorized", {}, resp);
+        }
+
+        req.user = user;
+
+        return next();
       }
-
-      if (user.status === "suspended") {
-        return handleResponse(401, "Unauthorized", {}, resp);
-      }
-
-      req.user = user;
-
-      return next();
     }
-
     const refresh_token = req?.cookies?.["refresh_token"];
 
     if (!refresh_token) {
@@ -39,7 +35,6 @@ export const authTokenVerification = async (req, resp, next) => {
     }
 
     const refreshDecoded = verifyToken(refresh_token, "refresh");
-
     if (!refreshDecoded) {
       return handleResponse(401, "Unauthorized", {}, resp);
     }
@@ -89,9 +84,8 @@ export const authCodeVerification = async (req, resp, next) => {
     if (user.status === "suspended")
       return handleResponse(401, "Unauthorized", {}, resp);
     req.user = user;
-    next();
+    return next();
   } catch (err) {
-    console.log(err);
     return handleResponse(500, err?.message, {}, resp);
   }
 };
